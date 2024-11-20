@@ -2,7 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df = pd.read_csv("run4.csv") #creates dataframe with floats
+csv_to_read = input("what csv to read?: ")
+df = pd.read_csv(csv_to_read) #creates dataframe with floats
 
 # Plot the x and y columns
 plt.plot(df['Timestamp'], df['RPM'], marker='o', linestyle='-', color='b')  # Customize the style as needed

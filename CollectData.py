@@ -29,24 +29,24 @@ while True:
         pass
 
     data_pt = arduino.readline()
-    encoding = chardet.detect(data_pt)['encoding']
-    decoded_data = data_pt.decode(encoding)
-    decoded_data = decoded_data.rstrip("\n")
-    decoded_data = decoded_data.split(',') 
+    try:
+        encoding = chardet.detect(data_pt)['encoding']
+        decoded_data = data_pt.decode(encoding)
+        decoded_data = decoded_data.rstrip("\n")
+        decoded_data = decoded_data.split(',') 
+    except:
+        pass
     try:
         decoded_data = [float(number) for number in decoded_data] 
-        print(decoded_data)
+        data.append(decoded_data)
     except: 
         pass
 
     if(time.time()-start_time >=40):
         break
 
-
-data = data[1:]
 fields = ["RPM", "Timestamp"]
  
-
 # Define the base name for the CSV files
 base_filename = 'run'
 file_extension = '.csv'
@@ -70,19 +70,6 @@ with open(csv_file, mode='w', newline='') as file:
     # Write headers (optional)
     writer.writerow(fields)
     writer.writerows(data)
-
-csv_desired = input("what csv would you like to analyze: ")
-
-df = pd.read_csv(csv_file) #creates dataframe with floats
-
-# Plot the x and y columns
-plt.plot(df['Timestamp'], df['RPM'], marker='o', linestyle='-', color='b')  # Customize the style as needed
-plt.xlabel('Timestamp')
-plt.ylabel('RPM')
-plt.title('RPM vs Time Plot')
-
-# # Show the plot
-plt.show()
 
 # degree = 20
 # coeffs = np.polyfit(df['Timestamp'], df['RPM'], degree)
