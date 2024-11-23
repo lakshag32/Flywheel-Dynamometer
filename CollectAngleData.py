@@ -38,14 +38,15 @@ while True:
         pass
     try:
         decoded_data = [float(number) for number in decoded_data] 
+        print(decoded_data) 
         data.append(decoded_data)
     except: 
         pass
 
-    if(time.time()-start_time >=40):
+    if(time.time()-start_time >=10):
         break
 
-fields = ["RPM", "Timestamp"]
+fields = ["timestamp", "total_angle"]
  
 # Define the base name for the CSV files
 base_filename = 'run'
@@ -71,18 +72,22 @@ with open(csv_file, mode='w', newline='') as file:
     writer.writerow(fields)
     writer.writerows(data)
 
-# degree = 20
+# df = pd.read_csv(csv_file)
+# df = df[df >= 0].dropna() #https://www.geeksforgeeks.org/how-to-drop-negative-values-in-pandas-dataframe/
+# df.head()
+
+# degree = 5
 # coeffs = np.polyfit(df['Timestamp'], df['RPM'], degree)
 # polynomial = np.poly1d(coeffs) 
 
 # polynomial_derivative = np.polyder(polynomial) 
 
-# # # Step 4: Generate smooth values for plotting the polynomial and its derivative
+# # # # Step 4: Generate smooth values for plotting the polynomial and its derivative
 # x_plotting_vals = np.linspace(df["Timestamp"].iloc[0], df["Timestamp"].iloc[-1], 100)
 # y_plotting_vals = polynomial(x_plotting_vals)
 # y_plotting_vals_deriv = polynomial_derivative(x_plotting_vals)
 
-# # # Step 5: Plot the data, polynomial fit, and its derivative
+# # # # Step 5: Plot the data, polynomial fit, and its derivative
 # plt.figure(figsize=(10, 6))
 # plt.scatter(df['RPM'], df['Timestamp'], color='red', label='Data points', zorder=5)  # Plot the data points
 # plt.plot(x_plotting_vals, y_plotting_vals, label=f'Polynomial Fit (degree {degree})', color='blue')  # Polynomial fit
@@ -94,35 +99,35 @@ with open(csv_file, mode='w', newline='') as file:
 # plt.grid(True)
 # plt.show()
 
-# # Step 6: Print out the polynomial equation and its derivative
-# equation = f"Polynomial Equation (degree {degree}):\n"
-# equation += "y = "
-# terms = []
-# for i, coeff in enumerate(coeffs):
-#     power = degree - i
-#     if power == 0:
-#         terms.append(f"{coeff:.4f}")
-#     elif power == 1:
-#         terms.append(f"{coeff:.4f}x")
-#     else:
-#         terms.append(f"{coeff:.4f}x^{power}")
-# equation += " + ".join(terms)
+# # # Step 6: Print out the polynomial equation and its derivative
+# # equation = f"Polynomial Equation (degree {degree}):\n"
+# # equation += "y = "
+# # terms = []
+# # for i, coeff in enumerate(coeffs):
+# #     power = degree - i
+# #     if power == 0:
+# #         terms.append(f"{coeff:.4f}")
+# #     elif power == 1:
+# #         terms.append(f"{coeff:.4f}x")
+# #     else:
+# #         terms.append(f"{coeff:.4f}x^{power}")
+# # equation += " + ".join(terms)
 
-# # Print the polynomial equation
-# print(equation)
+# # # Print the polynomial equation
+# # print(equation)
 
-# # Print the derivative of the polynomial
-# derivative_terms = []
-# for i, coeff in enumerate(polynomial_derivative.coefficients):
-#     power = len(polynomial_derivative.coefficients) - i - 1
-#     if power == 0:
-#         derivative_terms.append(f"{coeff:.4f}")
-#     elif power == 1:
-#         derivative_terms.append(f"{coeff:.4f}x")
-#     else:
-#         derivative_terms.append(f"{coeff:.4f}x^{power}")
+# # # Print the derivative of the polynomial
+# # derivative_terms = []
+# # for i, coeff in enumerate(polynomial_derivative.coefficients):
+# #     power = len(polynomial_derivative.coefficients) - i - 1
+# #     if power == 0:
+# #         derivative_terms.append(f"{coeff:.4f}")
+# #     elif power == 1:
+# #         derivative_terms.append(f"{coeff:.4f}x")
+# #     else:
+# #         derivative_terms.append(f"{coeff:.4f}x^{power}")
 
-# derivative_equation = "Derivative of Polynomial:\n"
-# derivative_equation += "dy/dx = "
-# derivative_equation += " + ".join(derivative_terms)
-# print(derivative_equation)
+# # derivative_equation = "Derivative of Polynomial:\n"
+# # derivative_equation += "dy/dx = "
+# # derivative_equation += " + ".join(derivative_terms)
+# # print(derivative_equation)
