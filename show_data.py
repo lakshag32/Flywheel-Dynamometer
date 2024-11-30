@@ -1,5 +1,3 @@
-#80, 240, 80, 160, 160
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -17,7 +15,6 @@ angle_df['timestamp'] = angle_df['timestamp']/1000
 angle_df['total_angle'] = angle_df['total_angle'].rolling(window=80).mean()
 #keep only rows that have a timestamp and total angle displacement value
 angle_df = angle_df[angle_df.count(axis=1) == 2]
-
 
 #function to estimate derivative values using 
 def estimate_derivative(df):
@@ -49,7 +46,6 @@ acceleration_df = estimate_derivative(velocity_df)
 acceleration_df['y'] = acceleration_df['y'].rolling(window=80).mean()
 acceleration_df = acceleration_df[acceleration_df.count(axis=1) == 2]
 
-
 moment_of_inertia = 0.006767
 
 power_time_data = []
@@ -67,8 +63,6 @@ for timestamp, acceleration in acceleration_df.values:
     power_time_data.append((timestamp, new_y_value))
     power_velocity_data.append((velocity_interp,new_y_value))
 
-print(power_time_data)
-
 power_time_df = pd.DataFrame(power_time_data, columns=["x", "y"])
 power_time_df['y'] = power_time_df['y'].rolling(window=160).mean()
 power_time_df = power_time_df[power_time_df.count(axis=1) == 2]
@@ -76,12 +70,12 @@ power_time_df = power_time_df[power_time_df.count(axis=1) == 2]
 
 power_velocity_df = pd.DataFrame(power_velocity_data, columns=["x", "y"])
 power_velocity_df['y'] = power_velocity_df['y'].rolling(window=160).mean()
+power_velocity_df = power_velocity_df[power_velocity_df.count(axis=1) == 2]
+
 
 plt.figure(figsize=(10, 8))
 
 plt.plot(power_velocity_df['x'], power_velocity_df['y'], label='Power(watts) vs Velocity(rad/s)', color='orange', marker='o')
-plt.plot(power_time_df['x'], power_time_df['y'], label='Power(watts) vs Velocity(rad/s)', color='orange', marker='o')
-
 
 plt.xlabel('Velocity(rad/sec)')
 plt.ylabel('Power(watts)')

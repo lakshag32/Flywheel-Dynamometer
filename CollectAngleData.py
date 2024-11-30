@@ -43,7 +43,7 @@ while True:
     except: 
         pass
 
-    if(time.time()-start_time >=10):
+    if(time.time()-start_time >=20):
         break
 
 fields = ["timestamp", "total_angle"]
