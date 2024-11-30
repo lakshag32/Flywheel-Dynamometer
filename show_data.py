@@ -72,6 +72,10 @@ power_velocity_df = pd.DataFrame(power_velocity_data, columns=["x", "y"])
 power_velocity_df['y'] = power_velocity_df['y'].rolling(window=160).mean()
 power_velocity_df = power_velocity_df[power_velocity_df.count(axis=1) == 2]
 
+# Calculate the integral using trapezoidal rule
+integral = np.trapz(power_time_df['y'], power_time_df['x'])
+
+print(f"Amount of Mechanical Energy Produced(J): {integral}")
 
 plt.figure(figsize=(10, 8))
 
@@ -84,18 +88,3 @@ plt.legend()
 
 plt.grid(True)
 plt.show()
-
-print("NaN values in each column:")
-print(power_time_df.isna().sum())
-
-# Drop NaN values (if any)
-df = power_time_df.dropna()
-
-# Ensure correct data types
-power_time_df['x'] = pd.to_numeric(power_time_df['x'], errors='coerce')
-power_time_df['y'] = pd.to_numeric(power_time_df['y'], errors='coerce')
-
-# Calculate the integral using trapezoidal rule
-integral = np.trapz(power_time_df['y'], power_time_df['x'])
-
-print("Integral:", integral)
