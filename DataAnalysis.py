@@ -9,12 +9,15 @@ csv_to_read = input("what csv to read?: ")
 angle_df = pd.read_csv(csv_to_read)
 
 #remove repeated data and convert time from ms to s
-angle_df = angle_df.drop_duplicates(subset=['total_angle'])
+#angle_df = angle_df.drop_duplicates(subset=['total_angle'])
 angle_df['timestamp'] = angle_df['timestamp']/1000
+angle_df.to_csv("pre.csv",index=False)
 #Remove noise from the data by generating points from a moving average of the data
 angle_df['total_angle'] = angle_df['total_angle'].rolling(window=80).mean()
 #keep only rows that have a timestamp and total angle displacement value
 angle_df = angle_df[angle_df.count(axis=1) == 2]
+angle_df.to_csv("post.csv",index=False)
+
 
 #function to estimate derivative values using 
 def estimate_derivative(df):
@@ -79,11 +82,13 @@ print(f"Amount of Mechanical Energy Produced(J): {integral}")
 
 plt.figure(figsize=(10, 8))
 
-plt.plot(power_velocity_df['x'], power_velocity_df['y'], label='Power(watts) vs Velocity(rad/s)', color='orange', marker='o')
-
-plt.xlabel('Velocity(rad/sec)')
-plt.ylabel('Power(watts)')
-plt.title('Power(watts) vs Velocity(rad/sec)')
+#plt.plot(power_velocity_df['x'], power_velocity_df['y'], label='Power(watts) vs Velocity(rad/s)', color='orange', marker='o')
+#plt.plot(power_time_df['x'], power_time_df['y'], label='Power(watts) vs Time(s)', color='blue', marker='o')
+#plt.plot(power_velocity_df['x'], power_velocity_df['y'], label='Power(watts) vs Angular Velocity(rad/s)', color='red', marker='o')
+plt.plot(velocity_df['x'], velocity_df['y'], label='Angular Velocity(rad/s) vs Time(s)', color='green', marker='o')
+plt.xlabel('Time(s)')
+plt.ylabel('Angular Velocity(rad/s)')
+plt.title('Angular Velocity(rad/s) vs Time(s)')
 plt.legend()
 
 plt.grid(True)
